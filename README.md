@@ -1,51 +1,90 @@
-# project_5_OC_Adele_Souleymanova
-## Projet 5 : Ségmentation des clients d'une base de données d'une plateforme E-commerce Olist
+# Customer Segmentation for an E-commerce Platform
 
-But du projet: segmentation des clients afin de comprendre les différents types d’utilisateurs
-fournir à l’équipe marketing une description actionable et proposer contrat de maintenance du Modèle
+## Project Context
+Olist is an e-commerce sales platform that generates a significant amount of data. This project focuses on **customer segmentation** based on similar profiles to:
+- Understand different types of users.
+- Create stable customer segments.
+- Propose a **maintenance strategy** to keep segments stable over time.
 
-Approche: utilisation de méthodes non supervisées pour regrouper ensemble des clients de profils similaires
-évaluer la fréquence à laquelle la segmentation doit être mise à jour afin de proposer un devis de contrat de maintenance.
+## Project Objectives
+- Perform customer segmentation to identify distinct user profiles.
+- Use clustering techniques and silhouette analysis to assess segmentation quality.
+- Develop a time-based analysis to evaluate the stability of these segments.
 
-Notebook 1 du projet 5:
-Dans ce notebook nous allons:
+## Project Plan
+1. **Data Manipulation**
+2. **Exploratory Data Analysis (EDA)**
+3. **Data Preprocessing**
+4. **Clustering & Partitioning**
+5. **Silhouette Score Analysis**
+6. **Business Analysis of Segments**
+7. **Temporal Stability Analysis of Segmentation**
 
-I) Analyser les datasets
+## Dataset
+- The dataset is open and available on **Kaggle**.
+- It includes various data types: **text** and **numeric** values.
+  
+### Data Breakdown:
+- **Order History**
+- **Purchased Products**
+- **Customer Satisfaction Ratings**
+- **Customer Locations**
+  
+All data sources are combined into a single dataframe for analysis.
 
-    1) Importer les données
-    2) Visualiser les premieres lignes des datasets
-     
-II) Joindre les differents datasets
+## Project Steps
 
-    1) Renommer les colonnes concernant les zip codes dans les differents datasets
-    2) Supprimer les duplicats
-    3) Jointure des datasets "client"
-    4) Jointure finale avec datasets "produits"
-    
-III) Feature engineering
+### I) Data Manipulation
+- **Feature Engineering**: 
+  - Group data by unique customer ID.
+  - Aggregate using functions like `min`, `max`, `mode`, `mean`, and `count`.
+- **Data Cleaning**:
+  - Remove redundant columns.
+  - Handle missing values by imputing modal values.
+  - Encode categorical columns using one-hot encoding.
+- **Dimensionality Reduction**: 
+  - Apply variance-based reduction to remove features with low variance.
 
-    1) Manipulation des features temporels
-    2) Création de catégories plus simples 
-    3) Aggregation par clients et création de nouvelles colonnes
-    4) Jointure des features crées en une seule dataframe ' data'
-    
-    
-IV) Analyse exploratoire
+### II) Exploratory Data Analysis (EDA)
+Conducted a thorough analysis to understand the distribution, relationships, and patterns within the data.
 
-    1) Visualisation des Etats qui achètent le plus
-    2) Les produits les plus vendus
-    3) L'évolution de la vente en fonction des mois de l'année
-    4) Représentation géographique de la consommation par les clients
+### III) Dimensionality Reduction
+- **PCA (Principal Component Analysis)**: 
+  - Transforms the data by projecting it onto a coordinate system based on data variance.
+  - High-variance features are selected for analysis.
+  
+- **ISOMAP**: 
+  - A non-linear dimensionality reduction technique using K-Nearest Neighbors (KNN).
+  - Computes the shortest distance between nodes to represent the data in lower dimensions while preserving distances between similar points.
 
-    
-V) Data preprocessing 
+### IV) Clustering with KMeans
+Utilized **KMeans** clustering to segment customers based on their behaviors and profiles.
 
-    1) Visualisation de la corrélation linéaire entre les différents features
-    2) Vérification de valeurs manquates et imputation par les valeurs modales
-    3) Suppresion de features redondantes et Encodage des variables categorielle
-    4) Sélection des features les plus intéressants selon la variance
-    5) Positiver les valeurs
-    6) Train/Test split
-    
+### V) Silhouette Score Analysis
+- The silhouette score measures:
+  - **Cluster cohesion** (intra-cluster distance).
+  - **Cluster separation** (distance to the nearest external cluster).
+  - Values range from 0 (worst) to 1 (best).
 
-    
+### VI) Business Analysis of Segments
+- **Radar/Kiviat Diagrams**: Used to visualize and interpret each segment's business characteristics.
+
+### VII) Temporal Stability Analysis of Segmentation
+1. Create a **baseline model** using the first 12 months of purchase data.
+2. Expand the dataset by adding one month of new customer data at a time.
+3. Train a new model on each expanded dataset.
+4. Evaluate stability using **ARI (Adjusted Rand Index)** scores by comparing the baseline model with the model trained on each subsequent period.
+
+   - **Observation**: The clusters start changing after 1.5 months, indicating the point at which a new segmentation may be required.
+
+5. **Silhouette Score Comparison**: Compared clustering quality with **KMeans** and **DBSCAN** for six clusters (`k=6`).
+
+## Tools & Libraries
+- **Python**: Version X.X
+- **pandas**, **scikit-learn**, **KMeans**, **DBSCAN**, **Matplotlib**, **Seaborn**
+- **Jupyter Notebook** for analysis and visualization
+
+---
+
+## Conclusion
+This project successfully segments e-commerce customers based on behavioral data, providing actionable insights for targeted marketing and customer relationship management. Temporal stability analysis offers a basis for long-term segment maintenance, ensuring that segments remain relevant over time.
